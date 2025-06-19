@@ -41,7 +41,7 @@ FROM savings_transactions
 GROUP BY owner_id, txn_month
 ),
 
-**Step 2**: **Average the monthly counts for each user
+**Step 2**: Average the monthly counts for each user
 Following the customer’s monthly counts, i calculated the average per month per user.
 
 Took the output of Step 1 as a subquery and run:SELECT 
