@@ -40,7 +40,8 @@ Low Frequency (≤ 2 txns/month)
 FROM savings_transactions
 GROUP BY owner_id, txn_month
 ),
-**Step 2: **Average the monthly counts for each user
+
+**Step 2**: **Average the monthly counts for each user
 Following the customer’s monthly counts, i calculated the average per month per user.
 
 Took the output of Step 1 as a subquery and run:SELECT 
@@ -51,7 +52,8 @@ FROM (
 ) AS monthly_tx
 GROUP BY owner_id
 )
-Step 3:Join with users_customuser and categorize
+
+**Step 3**:Join with users_customuser and categorize
 Attached customer details from the users_customuser table
 Categorized based on the averageSELECT 
   u.id,
@@ -95,8 +97,10 @@ Find all active accounts (savings or investments) with no transactions in the la
 * Confirmed_amount > 0
 * transaction_date is within the last 365 days
 This helped me find account with recents deposits
-Step2:Flag active accounts
-Step3:Used UNION to find accounts with no inflow in the last 365 days
+
+**Step2**:Flag active accounts
+
+**Step3**:Used UNION to find accounts with no inflow in the last 365 days
 -- Get active savings and investment accounts with no inflow in the past year
 
 SELECT a.id AS account_id, a.owner_id, 'Savings' AS account_type
@@ -145,13 +149,17 @@ Order by estimated CLV from highest to lowest
 users_customuser contains customer data (including signup date)
 savings_transactions contains inflow/outflow data
 Handled confirmed_amount as the transaction value
+
 **Step 1**: Calculate tenure in months
 Using MySQL’s TIMESTAMPDIFF(MONTH, signup_date, CURDATE()).
+
 **Step 2**: Calculate total number of transactions and total value
 Group by owner_id, using COUNT and SUM on confirmed_amount.
+
 **Step 3**: Calculate average profit per transaction
 profit_per_transaction = 0.001 * confirmed_amount, so:avg_profit_per_transaction = (SUM(confirmed_amount) * 0.001) / COUNT(*)
-Step 4: Plug into CLV formula
+
+**Step 4**: Plug into CLV formula
 CLV = (total_transactions / tenure_months) * 12 * avg_profit_per_transaction
 
 **CHALLENGES**
